@@ -5,17 +5,35 @@ import StorePageLayout from '@/app/storePageLayout';
 import ProductList from '@/app/features/productsList/productsList';
 import { mockCatalogProducts } from '@/app/testFixtures/mockProducts';
 
+jest.mock("next/navigation", () => ({
+    usePathname: () => "/",
+    useRouter: () => ({ push: jest.fn(), replace: jest.fn() }),
+}));
+
+beforeEach(() => {
+    global.fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve([]),
+    } as Response);
+});
+
 function renderHome() {
     return render(
-        <Providers>
-            <StorePageLayout products={mockCatalogProducts}>
-                <ProductList products={mockCatalogProducts} />
+        <Providers initialProducts={mockCatalogProducts}>
+            <StorePageLayout>
+                <ProductList />
             </StorePageLayout>
         </Providers>,
     );
 }
 
 describe('Home', () => {
+    beforeEach(() => {
+        global.fetch = jest.fn().mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve([]),
+        } as Response);
+    });
     it('renders an empty basket', () => {
         renderHome();
 

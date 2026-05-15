@@ -1,13 +1,12 @@
 "use client";
 
-import { Product } from "@/app/lib/types";
 import { useBasket } from "@/app/providers/basketProvider";
 import styles from "@/app/page.module.css";
 import Link from "next/link";
 import { BasketItemsList } from "@/app/features/basket/itemsList";
 import { BasketSummary } from "./basketSummary";
 
-export const Basket = ({ products }: { products: Product[] }) => {
+export const Basket = () => {
     const { basket, toggleBasket, closeBasket, openBasket } = useBasket();
     const totalQuantity = basket.reduce((acc, item) => acc + item.quantity, 0);
     const summary = `Basket: ${totalQuantity} items`;
@@ -52,8 +51,8 @@ export const Basket = ({ products }: { products: Product[] }) => {
                                 Close
                             </button>
                         </div>
-                        <BasketItemsList products={products} />
-                        <BasketSummary products={products} />
+                        <BasketItemsList />
+                        <BasketSummary />
                         <Link
                             href="/checkout"
                             className={styles.primaryButton}

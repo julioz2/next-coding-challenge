@@ -4,9 +4,11 @@ import { BasketItem, Product } from "@/app/lib/types";
 import { useBasket } from "@/app/providers/basketProvider";
 import { ItemListCard } from "@/app/ui/cards/itemListCard";
 import styles from "@/app/page.module.css";
+import { useProducts } from "@/app/providers/productsProvider";
 
-export const BasketItemsList = ({ products }: { products: Product[] }) => {
+export const BasketItemsList = () => {
     const { basket } = useBasket();
+    const { products } = useProducts();
 
     return (
         <ul className={styles.itemsList} aria-label="Basket items">

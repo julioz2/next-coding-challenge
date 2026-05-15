@@ -1,10 +1,11 @@
 "use client";
 
 import styles from '@/app/page.module.css';
-import { Product } from '@/app/lib/types';
 import ProductWrapper from '@/app/features/productsList/productWrapper';
+import { useProducts } from '@/app/providers/productsProvider';
 
-export default function ProductList({ products }: { products: Product[] }) {
+export default function ProductList() {
+    const { products } = useProducts();
 
     return (
         <section aria-labelledby="products-heading" className={styles.productsList}>

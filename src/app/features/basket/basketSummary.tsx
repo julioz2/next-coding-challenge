@@ -1,12 +1,13 @@
 "use client";
 
-import { Product } from "@/app/lib/types";
 import { useBasket } from "@/app/providers/basketProvider";
 import { formatPrice } from "@/app/lib/utils";
 import styles from "@/app/page.module.css";
+import { useProducts } from "@/app/providers/productsProvider";
 
-export const BasketSummary = ({ products }: { products: Product[] }) => {
+export const BasketSummary = () => {
     const { basket } = useBasket();
+    const { products } = useProducts();
     const totalQuantity = basket.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = basket.reduce((sum, item) => {
         const product = products.find((p) => p.id === item.id);
