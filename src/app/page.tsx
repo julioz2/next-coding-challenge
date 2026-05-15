@@ -1,46 +1,107 @@
 'use client';
-import { useState } from 'react';
-import styles from './page.module.css'
 
-function ItemCount({count, name}: {count: number, name: string}) {
-  return <div key={name}>{name} count: {count}</div>
-};
+import { useState } from 'react';
+import styles from './page.module.css';
+
+function ItemCount({ count, name }: { count: number; name: string }) {
+  return (
+    <li>
+      {name} count: {count}
+    </li>
+  );
+}
+
+const products = [
+  { name: 'Item 1', quantity: 1, id: '1' },
+  { name: 'Item 2', quantity: 1, id: '2' },
+  { name: 'Item 3', quantity: 1, id: '3' },
+  { name: 'Item 4', quantity: 1, id: '4' },
+];
+
+interface Item {
+  name: string;
+  quantity: number;
+  id: string;
+}
+
+interface BasketItem {
+  id: string;
+  quantity: number;
+}
 
 export default function Home() {
-  const [items, setItems] = useState<{name: string, quantity: number}[]>([]);
-  const [itemCount, setItemCount] = useState<number>(0);
+  const [basket, setBasket] = useState<BasketItem[]>([]);
 
-  const addToCart = (product: string) => {
-    const alreadyInCart = items.find(item => item.name === product);
-    if (alreadyInCart) {
-      // @TODO need to find out how to update cart items
-    } else {
-      setItems([...items, { name: product, quantity: 1 }]);
-    }
-    setItemCount(itemCount + 1);
-  }
+  const lineCount = basket.length;
+  const lineWord = lineCount === 1 ? 'item' : 'items';
+  const basketSummary = `Basket: ${lineCount} ${lineWord}`;
+
+  const addToCart = (productId: string) => {
+    setBasket((prevBasket: BasketItem[]) => {
+      const itemInBasket = prevBasket.find((item) => item.id === productId);
+
+      if (!itemInBasket) {
+        return [{ id: productId, quantity: 1 }, ...prevBasket];
+      }
+
+      return prevBasket.map((i) =>
+        i.id === productId
+          ? { ...i, quantity: itemInBasket.quantity + 1 }
+          : i,
+      );
+    });
+  };
 
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
+        <p id="store-heading" role="heading" aria-level={1}>
           Michael&apos;s Amazing Web Store
         </p>
-        <div>
-          <button className={styles.basket}>Basket: {itemCount} items</button>
-          <ItemCount name="Item 1" count={items.find(item=> item.name === 'Item 1')?.quantity || 0}/>
-          <ItemCount name="Item 2" count={items.find(item=> item.name === 'Item 2')?.quantity || 0}/>
-          <ItemCount name="Item 3" count={items.find(item=> item.name === 'Item 3')?.quantity || 0}/>
-          <ItemCount name="Item 4" count={items.find(item=> item.name === 'Item 4')?.quantity || 0}/>
-        </div>
+
+        <section aria-label="Basket">
+          <button type="button" className={styles.basket}>
+            <span aria-live="polite" aria-atomic="true">
+              {basketSummary}
+            </span>
+          </button>
+          {lineCount > 0 ? (
+            <ul aria-label="Basket items">
+              {basket.map((basketItem: BasketItem) => {
+                const item = products.find((i) => i.id === basketItem.id);
+
+                return (
+                  <ItemCount
+                    key={basketItem.id}
+                    name={item?.name || ''}
+                    count={basketItem.quantity}
+                  />
+                );
+              })}
+            </ul>
+          ) : null}
+        </section>
       </div>
 
-      <div className={styles.grid}>
-        <button className={styles.card} onClick={() => addToCart('Item 1')} aria-label="Add to basket"><h2>Item 1 <span>-&gt;</span></h2><p>Foo</p></button>
-        <button className={styles.card} onClick={() => addToCart('Item 2')} aria-label="Add to basket"><h2>Item 2 <span>-&gt;</span></h2><p>Bar</p></button>
-        <button className={styles.card} onClick={() => addToCart('Item 3')} aria-label="Add to basket"><h2>Item 3 <span>-&gt;</span></h2><p>Baz</p></button>
-        <button className={styles.card} onClick={() => addToCart('Item 4')} aria-label="Add to basket"><h2>Item 4 <span>-&gt;</span></h2><p>Qux</p></button>
-      </div>
+      <section aria-label="Products">
+        <div className={styles.grid}>
+          {products.map((item: Item) => (
+            <button
+              type="button"
+              className={styles.card}
+              onClick={() => addToCart(item.id)}
+              key={item.id}
+              aria-label={`Add to basket, ${item.name}`}
+            >
+              <h2>
+                {item.name}{' '}
+                <span aria-hidden="true">-&gt;</span>
+              </h2>
+              <p>{item.quantity}</p>
+            </button>
+          ))}
+        </div>
+      </section>
     </main>
-  )
+  );
 }
