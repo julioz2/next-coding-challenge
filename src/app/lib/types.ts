@@ -1,9 +1,19 @@
 export interface Product {
     id: string;
-    price: number;
+    price: Price;
     category: string;
-    title: string;
-    availableQuantity?: number;
+    name: Name;
+    stock: number;
+}
+
+export interface Price {
+    gbp: number;
+    usd: number;
+}
+
+export interface Name {
+    uk: string;
+    us: string;
 }
 
 export interface Item {

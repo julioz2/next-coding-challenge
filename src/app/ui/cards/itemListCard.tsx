@@ -1,3 +1,4 @@
+import { formatPrice } from "@/app/lib/utils";
 import styles from "@/app/page.module.css";
 
 interface ItemListCardProps {
@@ -7,10 +8,7 @@ interface ItemListCardProps {
 }
 
 export const ItemListCard = ({ count, name, price }: ItemListCardProps) => {
-    const formattedPrice = new Intl.NumberFormat("en-GB", {
-        style: "currency",
-        currency: "GBP",
-    }).format(price);
+    const formattedPrice = formatPrice(price);
 
     return (
         <li className={styles.itemListCard}>

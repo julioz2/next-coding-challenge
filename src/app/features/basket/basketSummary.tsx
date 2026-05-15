@@ -10,7 +10,7 @@ export const BasketSummary = ({ products }: { products: Product[] }) => {
     const totalQuantity = basket.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = basket.reduce((sum, item) => {
         const product = products.find((p) => p.id === item.id);
-        return sum + (product?.price ?? 0) * item.quantity;
+        return sum + (product?.price.gbp ?? 0) * item.quantity;
     }, 0);
 
     const itemLabel = totalQuantity === 1 ? "item" : "items";

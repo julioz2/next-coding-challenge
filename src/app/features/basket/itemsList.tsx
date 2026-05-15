@@ -20,9 +20,9 @@ export const BasketItemsList = ({ products }: { products: Product[] }) => {
                     return (
                         <ItemListCard
                             key={basketItem.id}
-                            name={item.title}
+                            name={item.name.uk}
                             count={basketItem.quantity}
-                            price={item.price}
+                            price={item.price.gbp}
                         />
                     );
                 })

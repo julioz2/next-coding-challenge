@@ -1,14 +1,16 @@
 import { BasketItemsList } from '@/app/features/basket/itemsList';
 import StorePageLayout from '@/app/storePageLayout';
-import { products } from '@/app/page';
 import { BasketSummary } from '@/app/features/basket/basketSummary';
+import { fetchProducts } from '@/app/api/products/fetchProducts';
 
 export default async function Checkout() {
+    const initialProducts = await fetchProducts();
+
     return (
-        <StorePageLayout products={products}>
+        <StorePageLayout products={initialProducts}>
             <h1>Checkout</h1>
-            <BasketItemsList products={products} />
-            <BasketSummary products={products} />
+            <BasketItemsList products={initialProducts} />
+            <BasketSummary products={initialProducts} />
         </StorePageLayout>
     );
 }
