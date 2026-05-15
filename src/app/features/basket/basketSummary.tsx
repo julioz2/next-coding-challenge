@@ -4,8 +4,10 @@ import { useBasket } from "@/app/providers/basketProvider";
 import { formatPrice } from "@/app/lib/utils";
 import styles from "@/app/page.module.css";
 import { useProducts } from "@/app/providers/productsProvider";
+import { useRegion } from "@/app/providers/regionProvider";
 
 export const BasketSummary = () => {
+    const region = useRegion();
     const { basket } = useBasket();
     const { products } = useProducts();
     const totalQuantity = basket.reduce((sum, item) => sum + item.quantity, 0);
@@ -14,6 +16,7 @@ export const BasketSummary = () => {
         return sum + (product?.price.gbp ?? 0) * item.quantity;
     }, 0);
 
+    const formattedPrice = formatPrice(totalPrice, region.locale, region.currency);
     const itemLabel = totalQuantity === 1 ? "item" : "items";
 
     return (
@@ -25,7 +28,7 @@ export const BasketSummary = () => {
                 </div>
                 <div className={styles.basketSummaryRow}>
                     <dt>Total</dt>
-                    <dd>{formatPrice(totalPrice)}</dd>
+                    <dd>{formattedPrice}</dd>
                 </div>
             </dl>
         </div>

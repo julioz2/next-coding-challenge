@@ -5,8 +5,12 @@ import styles from "@/app/page.module.css";
 import Link from "next/link";
 import { BasketItemsList } from "@/app/features/basket/itemsList";
 import { BasketSummary } from "./basketSummary";
+import { useParams } from "next/navigation";
+import { localizedPath } from "@/app/lib/utils";
+import { RegionId } from "@/app/lib/regions";
 
 export const Basket = () => {
+    const { lang } = useParams();
     const { basket, toggleBasket, closeBasket, openBasket } = useBasket();
     const totalQuantity = basket.reduce((acc, item) => acc + item.quantity, 0);
     const summary = `Basket: ${totalQuantity} items`;
@@ -54,7 +58,7 @@ export const Basket = () => {
                         <BasketItemsList />
                         <BasketSummary />
                         <Link
-                            href="/checkout"
+                            href={localizedPath(lang as RegionId, "/checkout")}
                             className={styles.primaryButton}
                         >
                             Checkout

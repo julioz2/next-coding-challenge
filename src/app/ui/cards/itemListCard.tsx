@@ -1,5 +1,6 @@
 import { formatPrice } from "@/app/lib/utils";
 import styles from "@/app/page.module.css";
+import { useRegion } from "@/app/providers/regionProvider";
 
 interface ItemListCardProps {
     count: number;
@@ -8,7 +9,8 @@ interface ItemListCardProps {
 }
 
 export const ItemListCard = ({ count, name, price }: ItemListCardProps) => {
-    const formattedPrice = formatPrice(price);
+    const region = useRegion();
+    const formattedPrice = formatPrice(price, region.locale, region.currency);
 
     return (
         <li className={styles.itemListCard}>

@@ -1,6 +1,7 @@
 import styles from '@/app/page.module.css';
 import { Product } from '@/app/lib/types';
 import { formatPrice } from '@/app/lib/utils';
+import { useRegion } from '@/app/providers/regionProvider';
 
 interface ProductCardProps {
     product: Product;
@@ -8,8 +9,9 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, addToCart }: ProductCardProps) => {
+    const region = useRegion();
     const titleId = `product-title-${product?.id}`;
-    const formattedPrice = formatPrice(product.price.gbp);
+    const formattedPrice = formatPrice(region.productPrice(product), region.locale, region.currency);
 
     return (
         <article className={styles.card}>
@@ -24,7 +26,7 @@ export const ProductCard = ({ product, addToCart }: ProductCardProps) => {
                 onClick={() => addToCart(product.id)}
                 aria-describedby={titleId}
             >
-                Add to basket
+                {region.labels.addToBasket}
             </button>
         </article>
     )
