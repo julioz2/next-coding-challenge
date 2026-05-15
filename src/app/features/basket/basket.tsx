@@ -19,7 +19,7 @@ export const Basket = () => {
         <section aria-label="Basket">
             <button
                 type="button"
-                className={styles.basket}
+                className={styles.basketButton}
                 onClick={toggleBasket}
                 aria-expanded={openBasket}
                 aria-controls="basket-drawer"

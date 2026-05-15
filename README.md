@@ -26,3 +26,13 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 Run the testing and linting with `npm run test` and `npm run lint`.
+
+## Notes
+
+- **Scope & tooling:** I kept the solution simple and did not add new packages. For deferred data such as “more products”, I used a small client `useEffect` and app state; in production I would typically use **TanStack Query** for caching, loading/error states, and deduplication.
+
+- **Styling:** Visual polish was not part of the requirements, so the store UI is intentionally basic and neutral. Given more time, I would refactor the layout and components to **Tailwind** for consistency and faster iteration.
+
+- **More products & duplicate IDs:** The “more products” API returns items that share IDs with the initial catalog. For this exercise I **prefix / merge them anyway** so the feature is visible in the UI. I would **not** ship that behaviour to production, stable unique IDs from the API, or treating “more” as updates to existing SKUs.
+
+- **Testing:** There is plenty worth covering (regions, basket, deferred load, checkout). I did not have time, next time!!

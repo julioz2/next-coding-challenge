@@ -23,13 +23,13 @@
 .header {
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: var(--max-width);
-  background-color: var(--background-start-rgb);
+  background-color: rgb(var(--background-start-rgb));
   padding: 1rem;
   box-sizing: border-box;
 }
@@ -49,6 +49,15 @@
   margin: 0;
   padding: 0;
   gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--card-border-rgb), 0.22);
 }
 
 .description {
@@ -88,15 +97,24 @@
 
 /* BASKET */
 
-.basket {
+.basketButton {
   cursor: pointer;
-  padding: 1rem 1.2rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
   border-radius: var(--border-radius);
-  background: rgba(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
   border: 1px solid rgba(var(--card-border-rgb), 0);
   font-family: inherit;
   text-align: left;
   transition: background 200ms, border 200ms;
+}
+
+.basketButton:hover {
+  background: rgba(var(--card-rgb), 0.30);
+}
+
+.basketButton:active {
+  background: rgba(var(--card-rgb), 0.50);
 }
 
 .itemListCard {
@@ -273,6 +291,14 @@
   transition: background 200ms, border-color 200ms;
 }
 
+.addButton:hover {
+  background: rgba(var(--card-rgb), 0.30);
+}
+
+.addButton:active {
+  background: rgba(var(--card-rgb), 0.80);
+}
+
 .addButton:focus-visible {
   outline: 2px solid CanvasText;
   outline-offset: 2px;
@@ -310,11 +336,6 @@
 
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .basket,
-  .card {
-    padding: 1rem 2.5rem;
   }
 
   .card h2 {
