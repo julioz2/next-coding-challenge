@@ -1,10 +1,54 @@
-.main {
+.main,
+.storePage {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding-top: 6rem;
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.storeMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--max-width);
+  background-color: var(--background-start-rgb);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* PRODUCTS LIST */
+
+.productsList {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  max-width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
 }
 
 .description {
@@ -34,53 +78,221 @@
   border-radius: var(--border-radius);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
-  max-width: 100%;
-  width: var(--max-width);
+.productsHeading {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  width: 100%;
+  max-width: var(--max-width);
 }
 
-.basket,
-.card {
+/* BASKET */
+
+.basket {
   cursor: pointer;
   padding: 1rem 1.2rem;
   border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
+  background: rgba(var(--background-start-rgb));
   border: 1px solid rgba(var(--card-border-rgb), 0);
   font-family: inherit;
   text-align: left;
   transition: background 200ms, border 200ms;
 }
 
-.card span {
-  display: inline-block;
-  transition: transform 200ms;
+.itemListCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(var(--card-border-rgb), 0.22);
 }
 
-.card h2 {
-  font-weight: 600;
-  margin-bottom: 0.7rem;
+.itemListCardImage {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: calc(var(--border-radius) / 2);
+  overflow: hidden;
+  background: rgba(var(--callout-rgb), 0.22);
 }
 
-.card p {
+.itemListCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemListCardName {
   margin: 0;
-  opacity: 0.6;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  max-width: 30ch;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  .basket:hover,
-  .card:hover {
-    background: rgba(var(--card-rgb), 0.1);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+.itemListCardMeta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.itemListCardMetaRow {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+.itemListCardMetaRow dt {
+  font-weight: 600;
+}
+
+.itemListCardMetaRow dd {
+  margin: 0;
+}
+
+.basketDrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.basketDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(20rem, 90vw);
+  z-index: 51;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.1rem 1.25rem;
+  background: white;
+  border-right: 1px solid rgba(var(--card-border-rgb), 0.3);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.12);
+  animation: basketDrawerSlide 0.25s ease-out forwards;
+}
+
+.basketDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(var(--card-border-rgb), 0.22);
+}
+
+.basketDrawerTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.basketDrawerClose {
+  cursor: pointer;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--card-border-rgb), 0.35);
+  background: rgba(var(--card-rgb), 0.08);
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+.basketSummary {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(var(--card-border-rgb), 0.22);
+  border-bottom: 1px solid rgba(var(--card-border-rgb), 0.22);
+}
+
+.basketSummaryRows {
+  margin: 0;
+}
+
+.basketSummaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.basketSummaryRow dt {
+  font-weight: 600;
+}
+
+.basketSummaryRow dd {
+  margin: 0;
+}
+
+.itemsList {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: var(--max-width);
+}
+
+.basketDrawer .itemsList {
+  overflow-y: auto;
+  flex: 1;
+  margin-top: 1rem;
+  width: auto;
+}
+
+.itemsListEmpty {
+  margin: 0;
+  padding: 0.25rem 0;
+  opacity: 0.75;
+  font-size: 0.88rem;
+}
+
+.addButton {
+  cursor: pointer;
+  margin-top: auto;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--card-border-rgb), 0.25);
+  background: rgba(var(--card-rgb), 0.08);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background 200ms, border-color 200ms;
+}
+
+.addButton:focus-visible {
+  outline: 2px solid CanvasText;
+  outline-offset: 2px;
+}
+
+.primaryButton {
+  background-color: black;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+@keyframes basketDrawerSlide {
+  from {
+    transform: translateX(-100%);
   }
 
-  .card:hover span {
-    transform: translateX(4px);
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -97,10 +309,7 @@
   }
 
   .grid {
-    /* TODO Look up how to make a single column list*/
-    margin-bottom: 120px;
-    max-width: 320px;
-    text-align: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .basket,
@@ -135,11 +344,9 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
+    background: linear-gradient(to bottom,
+        rgba(var(--background-start-rgb), 1),
+        rgba(var(--callout-rgb), 0.5));
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
@@ -150,11 +357,9 @@
     inset: auto 0 0;
     padding: 2rem;
     height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgb(var(--background-end-rgb)) 40%);
     z-index: 1;
   }
 }
@@ -162,6 +367,6 @@
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
-    /* TODO Look up how to make a 2 column list*/
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

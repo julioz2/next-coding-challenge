@@ -1,0 +1,68 @@
+"use client";
+
+import { Product } from "@/app/lib/types";
+import { useBasket } from "@/app/providers/basketProvider";
+import styles from "@/app/page.module.css";
+import Link from "next/link";
+import { BasketItemsList } from "@/app/features/basket/itemsList";
+import { BasketSummary } from "./basketSummary";
+
+export const Basket = ({ products }: { products: Product[] }) => {
+    const { basket, toggleBasket, closeBasket, openBasket } = useBasket();
+    const totalQuantity = basket.reduce((acc, item) => acc + item.quantity, 0);
+    const summary = `Basket: ${totalQuantity} items`;
+
+    return (
+        <section aria-label="Basket">
+            <button
+                type="button"
+                className={styles.basket}
+                onClick={toggleBasket}
+                aria-expanded={openBasket}
+                aria-controls="basket-drawer"
+            >
+                <span aria-live="polite" aria-atomic="true">
+                    {summary}
+                </span>
+            </button>
+
+            {openBasket ? (
+                <>
+                    <div
+                        className={styles.basketDrawerBackdrop}
+                        aria-hidden
+                        onClick={closeBasket}
+                    />
+                    <div
+                        id="basket-drawer"
+                        className={styles.basketDrawer}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="basket-drawer-title"
+                    >
+                        <div className={styles.basketDrawerHeader}>
+                            <h2 id="basket-drawer-title" className={styles.basketDrawerTitle}>
+                                Basket
+                            </h2>
+                            <button
+                                type="button"
+                                className={styles.basketDrawerClose}
+                                onClick={closeBasket}
+                            >
+                                Close
+                            </button>
+                        </div>
+                        <BasketItemsList products={products} />
+                        <BasketSummary products={products} />
+                        <Link
+                            href="/checkout"
+                            className={styles.primaryButton}
+                        >
+                            Checkout
+                        </Link>
+                    </div>
+                </>
+            ) : null}
+        </section>
+    );
+};
